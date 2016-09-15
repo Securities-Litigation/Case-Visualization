@@ -1,0 +1,30 @@
+version: '2'
+services:
+  web:
+    build: .
+    ports:
+      - "80:80"
+    volumes:
+      - /usr/src/app/node_modules
+      - .:/usr/src/app
+    depends_on:
+      - postgres
+      - redis-session
+    # entrypoint: node
+    command: npm run start:dev
+    environment:
+      - FB_ID=$FB_ID
+      - FB_SECRET=$FB_SECRET
+      - SESSION_SECRET=$SESSION_SECRET
+      - PORT=80
+      - DEBUG=0
+  postgres:
+    image: postgres
+    volumes:
+      - ./docker:/docker-entrypoint-initdb.d
+    command: /docker-entrypoint.sh postgres
+  redis-session:
+    image: redis:alpine
+    volumes:
+      - ./docker/redis:/data
+    command: redis-server --appendonly yes

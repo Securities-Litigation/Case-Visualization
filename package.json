@@ -1,0 +1,18 @@
+{
+  "name": "Case Visualization",
+  "version": "1.0.0",
+  "description": "Tools to visualize the securities litigation field",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack -p && node server/index.js",
+    "start:dev": "webpack --watch --progress --colors & nodemon server/index.js",
+    "test": "./test/run.sh"
+  },
+  "repository": {
+      "type": "git",
+      "url": "git+https://github.com/Securities-Litigation/Case-Visualization.git"
+    },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
