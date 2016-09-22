@@ -13,9 +13,6 @@ services:
     # entrypoint: node
     command: npm run start:dev
     environment:
-      - FB_ID=$FB_ID
-      - FB_SECRET=$FB_SECRET
-      - SESSION_SECRET=$SESSION_SECRET
       - PORT=80
       - DEBUG=0
   postgres:
