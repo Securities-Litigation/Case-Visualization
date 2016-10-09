@@ -66,12 +66,35 @@ export default class Listings extends React.Component {
     var dataObj = {};
     arr.reduce(function(v1, v2) { return v2 !== arr[arr.length - 1] ? v1[v2] = {} : v1[v2] = {$set: !editVar}; }, editObj);
     arr.reduce(function(v1, v2) { return v2 !== arr[arr.length - 1] ? v1[v2] = {} : v1[v2] = {$set: val}; }, dataObj);
-
     if (editVar) {
       this.setState({data: update(this.state.data, dataObj)});
     }
     //Change 'edit' state for clicked item
     this.setState({editable: update(this.state.editable, editObj)});
+  }
+
+  addDrop() {
+    var newKey = Object.keys(this.state.data.drops).length + 1;
+    var dataObj = {drops: {}};
+    dataObj['drops'][newKey] = {$set: ''};
+    this.setState({data: update(this.state.data, dataObj)});
+  }
+
+  deleteDrop(key) {
+    var dataCopy = JSON.parse(JSON.stringify(this.state.data));
+    var editCopy = JSON.parse(JSON.stringify(this.state.editable));
+    var newDropsData = {};
+    var newDropsEdit = {};
+
+    delete dataCopy.drops[key];
+    delete editCopy.drops[key];
+    Object.keys(dataCopy.drops).forEach(function(val, key) { newDropsData[key + 1] = dataCopy.drops[val]; })
+    Object.keys(editCopy.drops).forEach(function(val, key) { newDropsEdit[key + 1] = editCopy.drops[val]; })
+    dataCopy.drops = newDropsData;
+    editCopy.drops = newDropsEdit;
+
+    this.setState({data: dataCopy})
+    this.setState({editable: editCopy})
   }
 
   render() {
@@ -82,7 +105,7 @@ export default class Listings extends React.Component {
         <div className="col-md-6">
           <ClassPeriod data={this.state.data.class} editable={this.state.editable.class} edit={this.edit.bind(this)}/>
           <ControlPeriod data={this.state.data.control} editable={this.state.editable.control} edit={this.edit.bind(this)}/>
-          <DropDates data={this.state.data.drops} editable={this.state.editable.drops} edit={this.edit.bind(this)}/>
+          <DropDates data={this.state.data.drops} editable={this.state.editable.drops} edit={this.edit.bind(this)} addDrop={this.addDrop.bind(this)} deleteDrop={this.deleteDrop.bind(this)}/>
           <CompanyInfo data={this.state.data.companyInfo} editable={this.state.editable.companyInfo} edit={this.edit.bind(this)}/>
         </div>
       
