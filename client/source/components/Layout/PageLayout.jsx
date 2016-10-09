@@ -10,10 +10,10 @@ export default class PageLayout extends React.Component {
 
   render() {
     return (
-      <div className="flexbox">
+      <div>
         <Nav />
-
-        <div className="flexbox">
+        
+        <div>
           {this.props.children}
         </div>
 

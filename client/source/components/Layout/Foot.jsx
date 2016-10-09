@@ -8,7 +8,7 @@ export default class Foot extends React.Component {
   render() {
     return (
       <footer className="navbar-fixed-bottom boxFlexRow boxFlexFooter" id="footer">
-        © 2016 Team Ether, Inc.
+        Produced by Matthew Martin, CFA
       </footer>
     )
   }
