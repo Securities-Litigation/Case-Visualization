@@ -11,7 +11,7 @@ export default class CaseName extends React.Component {
   render() {
     return (
       <div className="centerItem centerText">
-        <h1>{this.props.name}</h1>
+        <h1>{this.props.case}</h1>
         <p>Select different case:</p>
         <select onChange={this.props.changeCase}>
           {this.state.cases.map(function(val, key) {

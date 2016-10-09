@@ -6,6 +6,19 @@ export default class ControlPeriod extends React.Component {
     this.state = {}
   }
 
+  editToggle(bool, path) {
+    if (bool) {
+      return (
+        <div>
+          <div className="col-xs-9"><input className="form-control" id="focusedInput" type="date" /></div>
+          <button onClick={(e) => {this.props.edit(path)}} type="button" className="centerItem btn-xs btn-primary">Update</button>
+        </div>
+      );
+    } else {
+      return <button onClick={(e) => {this.props.edit(path)}} type="button" className="centerItem btn-xs btn-primary">Edit</button>
+    }
+  }
+
   render() {
     return (
       <table className="table table-striped table-hover">
@@ -20,14 +33,14 @@ export default class ControlPeriod extends React.Component {
         <tbody>
           <tr>
             <td className="col-xs-4">Begin</td>
-            <td className="col-xs-4 centerText">{this.props.control.beg}</td> 
-            <td className="col-xs-4"><button type="button" className="centerItem btn-xs btn-primary">Edit</button></td>
+            <td className="col-xs-4 centerText">{this.props.data.beg}</td> 
+            <td className="col-xs-4">{this.editToggle(this.props.editable.beg, ['control', 'beg'])}</td>
           </tr>
 
           <tr>
             <td className="col-xs-4">End</td>
-            <td className="col-xs-4 centerText">{this.props.control.end}</td>
-            <td className="col-xs-4"><button type="button" className="centerItem btn-xs btn-primary">Edit</button></td>
+            <td className="col-xs-4 centerText">{this.props.data.end}</td>
+            <td className="col-xs-4">{this.editToggle(this.props.editable.end, ['control', 'end'])}</td>
           </tr>
 
         </tbody>
