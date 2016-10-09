@@ -10,7 +10,7 @@ export default class CompanyInfo extends React.Component {
     if (props.editable[path[path.length - 1]]) {
       return (
         <div>
-          <div className="col-xs-9"><input className="form-control" id="focusedInput" name={path[path.length - 1]} type="text" onChange={(e) => this.onChange(e.target.value, path[path.length - 1])} /></div>
+          <div className="col-xs-9"><input className="form-control" id="focusedInput" type="text" name={path[path.length - 1]} onChange={(e) => this.onChange(e.target.value, path[path.length - 1])} /></div>
           <button onClick={() => {props.edit(path, this.state[path[path.length - 1]])}} type="button" className="centerItem btn-xs btn-primary">Update</button>
         </div>
       );
