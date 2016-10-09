@@ -13,16 +13,16 @@ export default class Listings extends React.Component {
       case: 'Akorn',
       data: {
         class: {
-          beg: '12/12/2012',
-          end: '12/12/2012'
+          beg: '2016-10-05',
+          end: '2016-10-05'
         },
         control: {
-          beg: '12/12/2012',
-          end: '12/12/2012'
+          beg: '2016-10-05',
+          end: '2016-10-05'
         },
         drops: {
-          1: '12/12/12', 
-          2: '06/01/13'
+          1: '2016-10-05', 
+          2: '2016-10-05'
         },
         companyInfo: {
           ticker: 'AKRX',
