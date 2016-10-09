@@ -1,0 +1,76 @@
+#footer {
+  background-color: rgb(44, 62, 80);
+  font: white;
+}
+
+.aboutPhoto {
+  width: 200px;
+  border-radius: 200px;
+}
+
+.centerItem {
+  margin: 0 auto;
+  display: block;
+}
+
+.centerText {
+  text-align: center;
+}
+
+.aboutName {
+  text-align: center;
+  font-size: 2em;
+  margin: 0.5em;
+}
+
+.aboutDescription {
+  margin: 1em 0 2em 0;
+  padding: 0 10%;
+}
+
+.dashboardTitle {
+  text-align: center;
+  font-size: 3em;
+}
+
+.inlineBlock {
+  display: inline-block;
+}
+
+.floatLeft {
+  float: left;
+}
+
+.floatRight {
+  float: right;
+}
+
+.floatCenter {
+  margin: auto;
+  text-align: center;
+}
+
+.row {
+  margin: 5px 15px;
+}
+
+th {
+  background-color: rgb(44, 62, 80);
+  color: white;
+}
+
+table {
+  margin: 25px;
+}
+
+.btn-drop-l {
+  display: inline-block;
+  margin-left: 25px;
+  margin-right: auto;
+
+}
+
+.btn-drop-r {
+  margin-left: 25px;
+  display: inline-block;
+}
