@@ -60,17 +60,22 @@ th {
 }
 
 table {
-  margin: 25px;
+  margin: 5px;
 }
 
 .btn-drop-l {
   display: inline-block;
-  margin-left: 25px;
+  margin-left: 5px;
   margin-right: auto;
 
 }
 
 .btn-drop-r {
-  margin-left: 25px;
+  margin-left: 5px;
   display: inline-block;
+}
+
+#root {
+  position: relative;
+  min-width: 480px;
 }
