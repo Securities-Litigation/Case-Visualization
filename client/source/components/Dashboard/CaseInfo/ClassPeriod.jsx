@@ -20,10 +20,3 @@ export default class ClassPeriod extends React.Component {
     )
   }
 }
-
-/*
-  -Path
-  -Name
-  -Type
-  -Edit (fn)
-*/
