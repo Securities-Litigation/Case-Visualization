@@ -9,6 +9,11 @@ import CompanyInfo from './CaseInfo/CompanyInfo.jsx';
 export default class Listings extends React.Component {
   constructor(props) {
     super(props);
+
+    this.edit = this.edit.bind(this);
+    this.addDrop = this.addDrop.bind(this);
+    this.deleteDrop = this.deleteDrop.bind(this);
+    
     this.state = {
       case: 'Akorn',
       data: {
@@ -103,10 +108,10 @@ export default class Listings extends React.Component {
         <CaseName case={this.state.case} changeCase={this.changeCase.bind(this)} />
 
         <div className="col-md-6">
-          <ClassPeriod data={this.state.data.class} editable={this.state.editable.class} edit={this.edit.bind(this)}/>
-          <ControlPeriod data={this.state.data.control} editable={this.state.editable.control} edit={this.edit.bind(this)}/>
-          <DropDates data={this.state.data.drops} editable={this.state.editable.drops} edit={this.edit.bind(this)} addDrop={this.addDrop.bind(this)} deleteDrop={this.deleteDrop.bind(this)}/>
-          <CompanyInfo data={this.state.data.companyInfo} editable={this.state.editable.companyInfo} edit={this.edit.bind(this)}/>
+          <ClassPeriod data={this.state.data.class} editable={this.state.editable.class} edit={this.edit} category={'class'} name={'Class Period'} type={'date'}/>
+          <ControlPeriod data={this.state.data.control} editable={this.state.editable.control} edit={this.edit}/>
+          <DropDates data={this.state.data.drops} editable={this.state.editable.drops} edit={this.edit} addDrop={this.addDrop} deleteDrop={this.deleteDrop}/>
+          <CompanyInfo data={this.state.data.companyInfo} editable={this.state.editable.companyInfo} edit={this.edit}/>
         </div>
       
       </div>
