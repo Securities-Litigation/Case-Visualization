@@ -17,7 +17,7 @@ const EditToggle = (props, key) => {
         </div>
 
         <button 
-          onClick={(e) => {props.edit([props.category, key], props.editedInfo[key])}} 
+          onClick={(e) => {props.edit([props.category, key], props.editedInfo[key], e)}} 
           type="button" 
           className="centerItem btn-xs btn-primary">
         Update
@@ -29,7 +29,7 @@ const EditToggle = (props, key) => {
 
     return (
       <button 
-        onClick={(e) => {props.edit([props.category, key])}} 
+        onClick={(e) => {props.edit([props.category, key], null, e)}} 
         type="button" 
         className="centerItem btn-xs btn-primary">
       Edit

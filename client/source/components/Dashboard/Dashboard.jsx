@@ -62,19 +62,35 @@ export default class Listings extends React.Component {
     this.setState({case: e.target.value});
   }
 
-  edit(arr, val) {
-    //Find & store "edit" boolean
-    var editVar = this.state.editable; arr.reduce(function(v1, v2) { return editVar = editVar[v1][v2] });
-
-    //Create nested object to change only what's needed in state with react-addon 'update'
+  edit(arr, val, e) {
+    //Find whether clicked item is currently editable
+    var editVar = this.state.editable;
+    arr.reduce(function(v1, v2) { 
+      return editVar = editVar[v1][v2] 
+    });
+    
+    //Create path to edit the "editable" status of clicked item
     var editObj = {};
+    arr.reduce(function(v1, v2) { 
+      return v2 !== arr[arr.length - 1] ? 
+        v1[v2] = {} : 
+        v1[v2] = {$set: !editVar}; 
+    }, editObj);
+    
+    //Create path to edit the data of clicked item
     var dataObj = {};
-    arr.reduce(function(v1, v2) { return v2 !== arr[arr.length - 1] ? v1[v2] = {} : v1[v2] = {$set: !editVar}; }, editObj);
-    arr.reduce(function(v1, v2) { return v2 !== arr[arr.length - 1] ? v1[v2] = {} : v1[v2] = {$set: val}; }, dataObj);
+    arr.reduce(function(v1, v2) { 
+      return v2 !== arr[arr.length - 1] ? 
+        v1[v2] = {} : 
+        v1[v2] = {$set: val}; 
+    }, dataObj);
+
+    //If "editable", update data
     if (editVar) {
       this.setState({data: update(this.state.data, dataObj)});
     }
-    //Change 'edit' state for clicked item
+
+    //Change 'editable' state for clicked item
     this.setState({editable: update(this.state.editable, editObj)});
   }
 
@@ -85,21 +101,33 @@ export default class Listings extends React.Component {
     this.setState({data: update(this.state.data, dataObj)});
   }
 
-  deleteDrop(key) {
+  deleteDrop(deletedDrop) {
+    //Create copies of state objects to update and define update function
     var dataCopy = JSON.parse(JSON.stringify(this.state.data));
     var editCopy = JSON.parse(JSON.stringify(this.state.editable));
-    var newDropsData = {};
-    var newDropsEdit = {};
+    var renameDrops = function(val, key, obj) { 
+      if (val >= deletedDrop) { 
+        obj[key + 1] = obj[val]; 
+        delete obj[val]
+      }
+    }
 
-    delete dataCopy.drops[key];
-    delete editCopy.drops[key];
-    Object.keys(dataCopy.drops).forEach(function(val, key) { newDropsData[key + 1] = dataCopy.drops[val]; })
-    Object.keys(editCopy.drops).forEach(function(val, key) { newDropsEdit[key + 1] = editCopy.drops[val]; })
-    dataCopy.drops = newDropsData;
-    editCopy.drops = newDropsEdit;
+    //Delete the clicked-on drop
+    delete dataCopy.drops[deletedDrop];
+    delete editCopy.drops[deletedDrop];
+
+    //Rename all drops
+    Object.keys(dataCopy.drops).forEach((val, key) => renameDrops(val, key, dataCopy.drops))
+    Object.keys(dataCopy.drops).forEach((val, key) => renameDrops(val, key, editCopy.drops))
 
     this.setState({data: dataCopy})
     this.setState({editable: editCopy})
+  }
+
+  onChange(val, key) {
+    var update = {};
+    update[key] = val;
+    this.setState(update);
   }
 
   render() {
@@ -108,10 +136,10 @@ export default class Listings extends React.Component {
         <CaseName case={this.state.case} changeCase={this.changeCase.bind(this)} />
 
         <div className="col-md-6">
-          <ClassPeriod data={this.state.data.class} editable={this.state.editable.class} edit={this.edit} category={'class'} name={'Class Period'} type={'date'}/>
-          <ControlPeriod data={this.state.data.control} editable={this.state.editable.control} edit={this.edit}/>
-          <DropDates data={this.state.data.drops} editable={this.state.editable.drops} edit={this.edit} addDrop={this.addDrop} deleteDrop={this.deleteDrop}/>
-          <CompanyInfo data={this.state.data.companyInfo} editable={this.state.editable.companyInfo} edit={this.edit}/>
+          <ClassPeriod data={this.state.data.class} editable={this.state.editable.class} edit={this.edit} category={'class'} name={'Class Period'} type={'date'} onChange={this.onChange}/>
+          <ControlPeriod data={this.state.data.control} editable={this.state.editable.control} edit={this.edit} category={'control'} name={'Control Period'} type={'date'} onChange={this.onChange}/>
+          <DropDates data={this.state.data.drops} editable={this.state.editable.drops} edit={this.edit} category={'drops'} name={'Drop Dates'} type={'date'} onChange={this.onChange} addDrop={this.addDrop} deleteDrop={this.deleteDrop}/>
+          <CompanyInfo data={this.state.data.companyInfo} editable={this.state.editable.companyInfo} edit={this.edit} category={'companyInfo'} name={'Company Info'} type={'text'} onChange={this.onChange}/>
         </div>
       
       </div>
