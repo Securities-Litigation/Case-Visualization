@@ -1,10 +1,15 @@
 import React from 'react';
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
 export default class DropDates extends React.Component {
   constructor(props) {
     super(props);
     this.editToggle = this.editToggle.bind(this);
-    this.state = {}
+    this.changeScenario = this.changeScenario.bind(this);
+    this.deleteScenario = this.deleteScenario.bind(this);
+    this.state = {
+      currScen: 1
+    }
   }
 
   editToggle(bool, path) {
@@ -47,7 +52,7 @@ export default class DropDates extends React.Component {
           </button>
 
           <button 
-            onClick={(e) => {this.props.deleteDrop(path[path.length - 1])}} 
+            onClick={(e) => {this.props.deleteDrop(path[path.length - 1], this.state.currScen)}} 
             type="button" 
             className="btn-drop-r centerItem btn-xs btn-danger">
             Delete
@@ -63,37 +68,77 @@ export default class DropDates extends React.Component {
     this.setState(update);
   }
 
+  changeScenario(index, last) {
+    if (index + 1 === Object.keys(this.props.data).length) {
+      this.props.addScenario();
+    } else {
+      this.setState({currScen: index + 1})
+    }
+  }
+
+  deleteScenario() {
+    this.props.deleteScenario(this.state.currScen);
+    this.changeScenario(0, 0);
+  }
+
   render() {
     return (
       <div>
-        <table className="table table-striped table-hover">
-          <thead>
-            <tr>
-              <th></th>
-              <th className="col-xs-4 centerText">Drop Dates</th>
-              <th></th>
-            </tr>
-          </thead>
+        <Tabs onSelect={this.changeScenario}>
 
-          <tbody>
-            {Object.keys(this.props.data).map(function(key, numKey) {
-              return (
-                <tr key={key}>
-                  <td className="col-xs-4">{'Drop #' + (numKey+1)}</td>
-                  <td className="centerText">{this.props.data[numKey+1]}</td> 
-                  <td className="col-xs-4">
-                    {this.editToggle(this.props.editable[numKey+1], ['drops', key])}
-                  </td>
-                </tr>
-              )}.bind(this))
+          <TabList>
+            {Object.keys(this.props.data).map(function(scenKey, scenNum) {
+              if (scenNum === Object.keys(this.props.data).length - 1) {
+                return <Tab key={scenKey}>{'+'}</Tab>
+              }
+              return <Tab key={scenNum}>{'Scenario #' + scenKey}</Tab>;
+            }.bind(this))}
+          </TabList>
+
+          {Object.keys(this.props.data).map(function(scenKey, scenNum) {
+            if (scenNum === Object.keys(this.props.data).length - 1) {
+              return <TabPanel key={scenKey}><div></div></TabPanel>
             }
-          </tbody>
-        </table>
+            return (
+              <TabPanel key={scenKey}>
+                <table className="table table-striped table-hover">
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <th className="col-xs-4 centerText">Drop Dates</th>
+                      <th></th>
+                    </tr>
+                  </thead>
 
-        <button onClick={this.props.addDrop} type="button" 
-          className="centerItem btn-md btn-success">
-          Add Drop
-        </button>
+                  <tbody>
+                    {Object.keys(this.props.data[this.state.currScen]).map(function(key, numKey) {
+                      return (
+                        <tr key={key}>
+                          <td className="col-xs-4">{'Drop #' + (numKey+1)}</td>
+                          <td className="centerText">{this.props.data[this.state.currScen][numKey+1]}</td> 
+                          <td className="col-xs-4">
+                            {this.editToggle(this.props.editable[this.state.currScen][numKey+1], ['scenarios', this.state.currScen, key])}
+                          </td>
+                        </tr>
+                      )}.bind(this))
+                    }
+                  </tbody>
+                </table>
+                <div className="">
+                  <button onClick={() => {this.props.addDrop(this.state.currScen)}} type="button" 
+                    className="centerItem btn-md btn-success">
+                    Add Drop
+                  </button>
+                  <button onClick={this.deleteScenario} type="button" 
+                    className="centerItem btn-md btn-danger">
+                    Delete Scenario
+                  </button>
+                </div>
+
+              </TabPanel>
+            )
+          }.bind(this))}
+        </Tabs>
       </div>
     )
   }
