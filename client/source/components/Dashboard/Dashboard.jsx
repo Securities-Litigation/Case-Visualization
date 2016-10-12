@@ -209,12 +209,29 @@ export default class Listings extends React.Component {
     this.setState({editable: editCopy})
   }
 
+  saveInputs() {
+    var myHeaders = new Headers({"Content-Type": "json"});
+    var myInit = { method: 'GET', headers: myHeaders };
+
+    fetch("/simple", myInit)
+    .then((response) => {
+      response.json()
+      .then(res => {
+        console.log(res)
+      })
+    })
+  }
+
   render() {
     return (
       <div>
         <CaseName case={this.state.case} changeCase={this.changeCase.bind(this)} />
 
         <div className="col-md-6">
+          <button onClick={this.saveInputs} type="button" 
+            className="centerItem btn-md btn-success">
+            Save Inputs
+          </button>
           <ClassPeriod data={this.state.data.class} editable={this.state.editable.class} edit={this.edit} category={'class'} name={'Class Period'} type={'date'} onChange={this.onChange}/>
           <ControlPeriod data={this.state.data.control} editable={this.state.editable.control} edit={this.edit} category={'control'} name={'Control Period'} type={'date'} onChange={this.onChange}/>
           <DropDates data={this.state.data.scenarios} editable={this.state.editable.scenarios} edit={this.edit} category={'scenarios'} name={'Drop Dates'} type={'date'} onChange={this.onChange} addDrop={this.addDrop} deleteDrop={this.deleteDrop} addScenario={this.addScenario} deleteScenario={this.deleteScenario}/>

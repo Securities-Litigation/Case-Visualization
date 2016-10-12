@@ -12,7 +12,7 @@ app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(express.static(__dirname + '/../client/public'));
 app.get('/simple', function(req, res) {
-  res.send('Hello world\n');
+  res.send({json: 'Hello world'});
 });
 
 app.listen(PORT, function() {
