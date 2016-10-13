@@ -237,7 +237,6 @@ export default class Listings extends React.Component {
           <DropDates data={this.state.data.scenarios} editable={this.state.editable.scenarios} edit={this.edit} category={'scenarios'} name={'Drop Dates'} type={'date'} onChange={this.onChange} addDrop={this.addDrop} deleteDrop={this.deleteDrop} addScenario={this.addScenario} deleteScenario={this.deleteScenario}/>
           <CompanyInfo data={this.state.data.companyInfo} editable={this.state.editable.companyInfo} edit={this.edit} category={'companyInfo'} name={'Company Info'} type={'text'} onChange={this.onChange}/>
         </div>
-      
       </div>
     )
   }

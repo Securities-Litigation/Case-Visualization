@@ -2,6 +2,7 @@
 const bodyParser = require('body-parser');
 const express = require('express');
 const morgan = require('morgan');
+const router = require('./router.js');
 
 const utils = require('./config/utils');
 
@@ -11,9 +12,7 @@ let PORT = 3000;
 app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(express.static(__dirname + '/../client/public'));
-app.get('/simple', function(req, res) {
-  res.send({json: 'Hello world'});
-});
+app.use('/', router);
 
 app.listen(PORT, function() {
   console.log('Running on port ', PORT);
