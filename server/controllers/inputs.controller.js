@@ -8,7 +8,7 @@ module.exports = {
     },
     post: (req, res) => {
       const result = model.simple.post(req.body);
-      res.status(200).send(result);
+      res.status(200).send(JSON.stringify(result));
     }
   }
 }
