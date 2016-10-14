@@ -1,4 +1,5 @@
 import React from 'react';
+import request from 'superagent';
 import update from 'react-addons-update';
 import CaseName from './CaseInfo/CaseName.jsx';
 import ClassPeriod from './CaseInfo/ClassPeriod.jsx';
@@ -16,6 +17,7 @@ export default class Listings extends React.Component {
     this.deleteDrop = this.deleteDrop.bind(this);
     this.addScenario = this.addScenario.bind(this);
     this.deleteScenario = this.deleteScenario.bind(this);
+    this.saveInputs = this.saveInputs.bind(this);
     
     this.state = {
       case: 'Akorn',
@@ -210,16 +212,18 @@ export default class Listings extends React.Component {
   }
 
   saveInputs() {
-    var myHeaders = new Headers({"Content-Type": "json"});
-    var myInit = { method: 'GET', headers: myHeaders };
+    var myHeaders = new Headers();
 
-    fetch("/simple", myInit)
-    .then((response) => {
-      response.json()
-      .then(res => {
-        console.log(res)
+    myHeaders.append('Content-Type', 'application/json');
+
+    request
+      .post('/simple')
+      .send(JSON.stringify({case: this.state.case, data: this.state.data}))
+      .set('Accept', 'application/json')
+      .set('Content-Type', 'application/json')
+      .end(function(err, response){
+        console.log(JSON.parse(response.text));
       })
-    })
   }
 
   render() {
@@ -228,7 +232,7 @@ export default class Listings extends React.Component {
         <CaseName case={this.state.case} changeCase={this.changeCase.bind(this)} />
 
         <div className="col-md-6">
-          <button onClick={this.saveInputs} type="button" 
+          <button onClick={this.saveInputs.bind(this)} type="button" 
             className="centerItem btn-md btn-success">
             Save Inputs
           </button>
