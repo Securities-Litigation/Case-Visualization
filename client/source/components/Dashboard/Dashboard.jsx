@@ -90,7 +90,14 @@ export default class Listings extends React.Component {
   }
 
   changeCase(e) {
-    this.setState({case: e.target.value});
+    request
+      .get('/case/' + e.target.value)
+      .end(function(err, response){
+        var resObj = JSON.parse(response.text)
+        resObj = resObj[0];
+        this.setState({data: resObj.data})
+        this.setState({case: resObj.case})
+      }.bind(this))
   }
 
   edit(arr, val, e) {
@@ -212,17 +219,15 @@ export default class Listings extends React.Component {
   }
 
   saveInputs() {
-    var myHeaders = new Headers();
-
-    myHeaders.append('Content-Type', 'application/json');
-
+    //TODO: change to 'PUT' after allowing 'POST' creation of new cases
     request
-      .post('/simple')
+      .post('/case')
       .send(JSON.stringify({case: this.state.case, data: this.state.data}))
       .set('Accept', 'application/json')
       .set('Content-Type', 'application/json')
       .end(function(err, response){
-        console.log(JSON.parse(response.text));
+        console.log('response.text is', response.text);
+        console.log('response.body is', JSON.stringify(response.body));
       })
   }
 

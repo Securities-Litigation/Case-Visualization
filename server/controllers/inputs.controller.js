@@ -1,14 +1,23 @@
+var Promise = require('bluebird');
+var utils = require('../config/utils.js');
 var model = require('../models/inputs.model.js');
+var moment = require('moment');
 
 module.exports = {
-  simple: {
+  case: {
     get: (req, res) => { 
-      const result = model.simple.get();
-      res.status(200).send(result);
+      new Promise(function(resolve, reject) {
+        resolve(model.case.get(req.params.caseName))
+      }).then(result => {
+        res.status(200).send(JSON.stringify(result));
+      })
     },
     post: (req, res) => {
-      const result = model.simple.post(req.body);
-      res.status(200).send(JSON.stringify(result));
+      new Promise(function(resolve, reject) {
+        resolve(model.case.post(req.body))
+      }).then(result => {
+        res.status(200).send(JSON.stringify(formattedRes));
+      })
     }
   }
 }
